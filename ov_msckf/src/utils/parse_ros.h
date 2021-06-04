@@ -209,6 +209,11 @@ namespace ov_msckf {
         nh.param<double>("fi_max_baseline", params.featinit_options.max_baseline, params.featinit_options.max_baseline);
         nh.param<double>("fi_max_cond_number", params.featinit_options.max_cond_number, params.featinit_options.max_cond_number);
 
+        // Image masking
+        nh.param<std::string>("mask_fpath_0", params.mask_fpath_0, params.mask_fpath_0);
+        nh.param<std::string>("mask_fpath_1", params.mask_fpath_1, params.mask_fpath_1);
+
+
 
 
         // SIMULATION ======================================================================

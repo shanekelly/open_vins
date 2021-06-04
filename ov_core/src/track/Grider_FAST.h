@@ -39,14 +39,14 @@ namespace ov_core {
      * On newer versions this doesn't seem to be needed, but here we just use it to ensure we can work for more opencv version.
      * https://answers.opencv.org/question/65800/how-to-use-lambda-as-a-parameter-to-parallel_for_/?answer=130691#post-id-130691
      */
-    class LambdaBody : public cv::ParallelLoopBody {    
+    class LambdaBody : public cv::ParallelLoopBody {
     public:
         explicit LambdaBody(const std::function<void(const cv::Range &)> &body) {
             _body = body;
         }
         void operator() (const cv::Range & range) const override {
             _body(range);
-        }    
+        }
     private:
         std::function<void(const cv::Range &)> _body;
     };
@@ -92,7 +92,7 @@ namespace ov_core {
          * It will then return the best from each grid in the return vector.
          */
         static void perform_griding(const cv::Mat &img, std::vector<cv::KeyPoint> &pts, bool multithread, int num_features,
-                                    int grid_x, int grid_y, int threshold, bool nonmaxSuppression) {
+                                    int grid_x, int grid_y, int threshold, bool nonmaxSuppression, cv::Mat image_mask = cv::Mat()) {
 
             // Calculate the size our extraction boxes should be
             int size_x = img.cols / grid_x;
@@ -128,6 +128,22 @@ namespace ov_core {
                         // Extract FAST features for this part of the image
                         std::vector<cv::KeyPoint> pts_new;
                         cv::FAST(img(img_roi), pts_new, threshold, nonmaxSuppression);
+
+                        // If there is an image mask, then remove keypoints
+                        // detected in the black regions of the image mask.
+                        if (!image_mask.empty()) {
+                            pts_new.erase(
+                              std::remove_if(pts_new.begin(), pts_new.end(),
+                                [&image_mask, y, x](const cv::KeyPoint& key_pt) -> bool {
+                                  const uint8_t image_mask_val =
+                                    image_mask.at<uint8_t>((float)y + key_pt.pt.y, (float)x + key_pt.pt.x);
+                                  if (image_mask_val == 255) {
+                                    return false;
+                                  }
+                                  return true;
+                                }),
+                              pts_new.end());
+                        }
 
                         // Now lets get the top number from this
                         std::sort(pts_new.begin(), pts_new.end(), Grider_FAST::compare_response);

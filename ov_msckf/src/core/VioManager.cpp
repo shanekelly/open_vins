@@ -107,7 +107,35 @@ VioManager::VioManager(VioManagerOptions& params_) {
     // Lets make a feature extractor
     trackDATABASE = std::make_shared<FeatureDatabase>();
     if(params.use_klt) {
-        trackFEATS = std::shared_ptr<TrackBase>(new TrackKLT(params.num_pts,state->_options.max_aruco_features, params.use_multi_threading,params.fast_threshold,params.grid_x,params.grid_y,params.min_px_dist));
+        // Load image mask 0 from file if the path is specified in params.
+        cv::Mat image_mask_0;
+        if (!params.mask_fpath_0.empty()) {
+          image_mask_0 = cv::imread(params.mask_fpath_0, CV_LOAD_IMAGE_GRAYSCALE);
+          if (image_mask_0.empty()) {
+            std::stringstream err_msg;
+            err_msg << "Image mask loaded from " << params.mask_fpath_0 << " is empty."
+                    << std::endl;
+            throw std::runtime_error(err_msg.str());
+          }
+          cv::threshold(image_mask_0, image_mask_0, 127, 255, CV_THRESH_BINARY);
+          std::cout << "Loaded image mask 0 from: " << params.mask_fpath_0 << std::endl;
+        }
+
+        // Load image mask 1 from file if the path is specified in params.
+        cv::Mat image_mask_1;
+        if (!params.mask_fpath_1.empty()) {
+          image_mask_1 = cv::imread(params.mask_fpath_1, CV_LOAD_IMAGE_GRAYSCALE);
+          if (image_mask_1.empty()) {
+            std::stringstream err_msg;
+            err_msg << "Image mask loaded from " << params.mask_fpath_1 << " is empty."
+                    << std::endl;
+            throw std::runtime_error(err_msg.str());
+          }
+          cv::threshold(image_mask_1, image_mask_1, 127, 255, CV_THRESH_BINARY);
+          std::cout << "Loaded image mask 1 from: " << params.mask_fpath_1 << std::endl;
+        }
+
+        trackFEATS = std::shared_ptr<TrackBase>(new TrackKLT(params.num_pts,state->_options.max_aruco_features, params.use_multi_threading,params.fast_threshold,params.grid_x,params.grid_y,params.min_px_dist, image_mask_0, image_mask_1));
         trackFEATS->set_calibration(params.camera_intrinsics, params.camera_fisheye);
     } else {
         trackFEATS = std::shared_ptr<TrackBase>(new TrackDescriptor(params.num_pts,state->_options.max_aruco_features, params.use_multi_threading,params.fast_threshold,params.grid_x,params.grid_y,params.knn_ratio));
@@ -1021,6 +1049,3 @@ void VioManager::retriangulate_active_tracks(const ov_core::CameraData &message)
     //printf(CYAN "[RETRI-TIME]: %.4f seconds total\n" RESET, (retri_rT5-retri_rT1).total_microseconds() * 1e-6);
 
 }
-
-
-

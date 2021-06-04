@@ -263,6 +263,11 @@ namespace ov_msckf {
         /// If we should perturb the calibration that the estimator starts with
         bool sim_do_perturbation = false;
 
+        /// The path to the image mask for camera 0.
+        std::string mask_fpath_0;
+        /// The path to the image mask for camera 1.
+        std::string mask_fpath_1;
+
         /**
          * @brief This function will print out all simulated parameters loaded.
          * This allows for visual checking that everything was loaded properly from ROS/CMD parsers.

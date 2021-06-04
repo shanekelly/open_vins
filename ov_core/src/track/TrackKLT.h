@@ -56,8 +56,8 @@ namespace ov_core {
          * @param gridy size of grid in the y-direction / v-direction
          * @param minpxdist features need to be at least this number pixels away from each other
          */
-        explicit TrackKLT(int numfeats, int numaruco, bool multithread, int fast_threshold, int gridx, int gridy, int minpxdist) :
-                 TrackBase(numfeats, numaruco, multithread), threshold(fast_threshold), grid_x(gridx), grid_y(gridy), min_px_dist(minpxdist) {}
+        explicit TrackKLT(int numfeats, int numaruco, bool multithread, int fast_threshold, int gridx, int gridy, int minpxdist, const cv::Mat imagemask0 = cv::Mat(), const cv::Mat imagemask1 = cv::Mat()) :
+                 TrackBase(numfeats, numaruco, multithread), threshold(fast_threshold), grid_x(gridx), grid_y(gridy), min_px_dist(minpxdist), image_mask_0(imagemask0), image_mask_1(imagemask1) {}
 
 
         /**
@@ -149,6 +149,9 @@ namespace ov_core {
         // Last set of image pyramids
         std::map<size_t, std::vector<cv::Mat>> img_pyramid_last;
 
+        // Image masks for left and right camera.
+        cv::Mat image_mask_0;
+        cv::Mat image_mask_1;
     };
 
 

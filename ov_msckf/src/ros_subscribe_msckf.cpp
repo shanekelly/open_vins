@@ -212,21 +212,3 @@ void callback_stereo(const sensor_msgs::ImageConstPtr& msg0, const sensor_msgs::
     sys->feed_measurement_camera(message);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -311,7 +311,7 @@ void TrackDescriptor::perform_detection_monocular(const cv::Mat& img0, std::vect
 
     // Extract our features (use FAST with griding)
     std::vector<cv::KeyPoint> pts0_ext;
-    Grider_FAST::perform_griding(img0, pts0_ext, use_multi_threading, num_features, grid_x, grid_y, threshold, true);
+    Grider_FAST::perform_griding(img0, pts0_ext, use_multi_threading, num_features, grid_x, grid_y, threshold, true, cv::Mat());
 
     // For all new points, extract their descriptors
     cv::Mat desc0_ext;
@@ -344,9 +344,9 @@ void TrackDescriptor::perform_detection_stereo(const cv::Mat &img0, const cv::Ma
     cv::Mat desc0_ext, desc1_ext;
     if(use_multi_threading) {
         boost::thread t_0 = boost::thread(&Grider_FAST::perform_griding, boost::cref(img0), boost::ref(pts0_ext),
-                                          use_multi_threading, num_features, grid_x, grid_y, threshold, true);
+                                          use_multi_threading, num_features, grid_x, grid_y, threshold, true, cv::Mat());
         boost::thread t_1 = boost::thread(&Grider_FAST::perform_griding, boost::cref(img1), boost::ref(pts1_ext),
-                                          use_multi_threading, num_features, grid_x, grid_y, threshold, true);
+                                          use_multi_threading, num_features, grid_x, grid_y, threshold, true, cv::Mat());
         t_0.join();
         t_1.join();
         // Use C++11 lamdas so we can pass all theses variables by reference
@@ -355,8 +355,8 @@ void TrackDescriptor::perform_detection_stereo(const cv::Mat &img0, const cv::Ma
         t_desc0.join();
         t_desc1.join();
     } else {
-        Grider_FAST::perform_griding(img0, pts0_ext, use_multi_threading, num_features, grid_x, grid_y, threshold, true);
-        Grider_FAST::perform_griding(img1, pts1_ext, use_multi_threading, num_features, grid_x, grid_y, threshold, true);
+        Grider_FAST::perform_griding(img0, pts0_ext, use_multi_threading, num_features, grid_x, grid_y, threshold, true, cv::Mat());
+        Grider_FAST::perform_griding(img1, pts1_ext, use_multi_threading, num_features, grid_x, grid_y, threshold, true, cv::Mat());
         this->orb0->compute(img0, pts0_ext, desc0_ext);
         this->orb1->compute(img1, pts1_ext, desc1_ext);
     }
