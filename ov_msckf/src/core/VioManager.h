@@ -354,7 +354,7 @@ namespace ov_msckf {
         std::unordered_map<size_t, Eigen::Vector3d> active_tracks_uvd;
         cv::Mat active_image;
 
-
+        std::ofstream timing_file_;
     };
 
 

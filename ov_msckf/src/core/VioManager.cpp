@@ -30,10 +30,10 @@ using namespace ov_type;
 using namespace ov_msckf;
 
 
-
-
-
 VioManager::VioManager(VioManagerOptions& params_) {
+
+
+    timing_file_.open("/home/sgk/eth/research/rowesys-vio/libs/openvins_cws/src/open-vins/results/openvins_timing.txt", std::ofstream::out);
 
 
     // Nice startup message
@@ -729,6 +729,9 @@ void VioManager::do_feature_propagate_update(const ov_core::CameraData &message)
         printf(BLUE " %d",id);
     }
     printf(")\n" RESET);
+
+    timing_file_ << time_total << std::endl;
+    timing_file_.flush();
 
     // Finally if we are saving stats to file, lets save it to file
     if(params.record_timing_information && of_statistics.is_open()) {

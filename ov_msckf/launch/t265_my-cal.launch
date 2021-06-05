@@ -68,8 +68,8 @@
         <param name="knn_ratio"          type="double" value="0.65" />
         <param name="downsample_cameras" type="bool"   value="false" />
         <param name="multi_threading"    type="bool"   value="true" />
-	<param name="mask_fpath_0"       type="string" value="/home/sgk/eth/research/rowesys-vio/masks/t265/67-5-deg_left_mask.png" />
-	<param name="mask_fpath_1"       type="string" value="/home/sgk/eth/research/rowesys-vio/masks/t265/67-5-deg_right_mask.png" />
+	<param name="mask_fpath_0"       type="string" value="/home/sgk/eth/research/rowesys-vio/masks/t265/45-deg_left_mask.png" />
+	<param name="mask_fpath_1"       type="string" value="/home/sgk/eth/research/rowesys-vio/masks/t265/45-deg_right_mask.png" />
 
         <!-- aruco tag/mapping properties -->
         <param name="use_aruco"        type="bool"   value="false" />
