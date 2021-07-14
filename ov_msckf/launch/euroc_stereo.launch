@@ -3,9 +3,9 @@
     <node name="run_serial_msckf" pkg="ov_msckf" type="run_serial_msckf" output="screen">
 
         <!-- bag topics -->
-        <param name="topic_imu"      type="string" value="/alphasense_driver_ros/imu" />
-        <param name="topic_camera0"  type="string" value="/alphasense_driver_ros/cam0" />
-        <param name="topic_camera1"  type="string" value="/alphasense_driver_ros/cam1" />
+        <param name="topic_imu"      type="string" value="/imu0" />
+        <param name="topic_camera0"  type="string" value="/cam0/image_raw" />
+        <param name="topic_camera1"  type="string" value="/cam1/image_raw" />
         <rosparam param="stereo_pairs">[0,1]</rosparam>
 
         <!-- bag parameters -->

@@ -35,7 +35,9 @@ namespace ov_core {
      * We can track either monocular cameras across time (temporally) along with
      * stereo cameras which we also track across time (temporally) but track from left to right
      * to find the stereo correspondence information also.
-     * This uses the [calcOpticalFlowPyrLK](https://github.com/opencv/opencv/blob/master/modules/video/src/lkpyramid.cpp) OpenCV function to do the KLT tracking.
+     * This uses the [calcOpticalFlowPyrLK]
+     * (https://github.com/opencv/opencv/blob/master/modules/video/src/lkpyramid.cpp) OpenCV
+     * function to do the KLT tracking.
      */
     class TrackKLT : public TrackBase {
 

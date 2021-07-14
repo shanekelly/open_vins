@@ -147,12 +147,17 @@ void TrackKLT::feed_stereo(double timestamp, cv::Mat &img_leftin, cv::Mat &img_r
     std::vector<cv::Mat> imgpyr_left, imgpyr_right;
     //cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE(eq_clip_limit, eq_win_size);
     if(use_multi_threading) {
-        boost::thread t_lhe = boost::thread(cv::equalizeHist, boost::cref(img_leftin), boost::ref(img_left));
-        boost::thread t_rhe = boost::thread(cv::equalizeHist, boost::cref(img_rightin), boost::ref(img_right));
+        // boost::thread t_lhe = boost::thread(cv::equalizeHist, boost::cref(img_leftin), boost::ref(img_left));
+        // boost::thread t_rhe = boost::thread(cv::equalizeHist, boost::cref(img_rightin), boost::ref(img_right));
         //boost::thread t_lhe = boost::thread(&cv::CLAHE::apply, clahe.get(), boost::cref(img_leftin), boost::ref(img_left));
         //boost::thread t_rhe = boost::thread(&cv::CLAHE::apply, clahe.get(), boost::cref(img_rightin), boost::ref(img_right));
-        t_lhe.join();
-        t_rhe.join();
+        // t_lhe.join();
+        // t_rhe.join();
+
+        // Needed if image equalization is disabled.
+        img_left = img_leftin;
+        img_right = img_rightin;
+
         boost::thread t_lp = boost::thread(cv::buildOpticalFlowPyramid, boost::cref(img_left),
                                            boost::ref(imgpyr_left), boost::cref(win_size), boost::cref(pyr_levels), false,
                                            cv::BORDER_REFLECT_101, cv::BORDER_CONSTANT, true);

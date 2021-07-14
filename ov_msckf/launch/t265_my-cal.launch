@@ -31,9 +31,9 @@
         <param name="use_imuavg"             type="bool"   value="true" />
         <param name="use_rk4int"             type="bool"   value="true" />
         <param name="use_stereo"             type="bool"   value="$(arg use_stereo)" />
-        <param name="calib_cam_extrinsics"   type="bool"   value="true" />
-        <param name="calib_cam_intrinsics"   type="bool"   value="true" />
-        <param name="calib_cam_timeoffset"   type="bool"   value="true" />
+        <param name="calib_cam_extrinsics"   type="bool"   value="false" />
+        <param name="calib_cam_intrinsics"   type="bool"   value="false" />
+        <param name="calib_cam_timeoffset"   type="bool"   value="false" />
         <param name="calib_camimu_dt"        type="double" value="0.0" />
         <param name="max_clones"             type="int"    value="11" />
         <param name="max_slam"               type="int"    value="50" />
@@ -68,8 +68,13 @@
         <param name="knn_ratio"          type="double" value="0.65" />
         <param name="downsample_cameras" type="bool"   value="false" />
         <param name="multi_threading"    type="bool"   value="true" />
-	<param name="mask_fpath_0"       type="string" value="/home/sgk/eth/research/rowesys-vio/masks/t265/45-deg_left_mask.png" />
-	<param name="mask_fpath_1"       type="string" value="/home/sgk/eth/research/rowesys-vio/masks/t265/45-deg_right_mask.png" />
+
+	<!--
+	<param name="mask_fpath_0"       type="string"
+	 value="/home/sgk/eth/research/rowesys-vio/masks/t265/22-5-deg/left_mask.png" />
+	<param name="mask_fpath_1"       type="string"
+	 value="/home/sgk/eth/research/rowesys-vio/masks/t265/22-5-deg/right_mask.png" />
+	-->
 
         <!-- aruco tag/mapping properties -->
         <param name="use_aruco"        type="bool"   value="false" />
