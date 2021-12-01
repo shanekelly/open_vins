@@ -4,11 +4,15 @@
     <arg name="max_cameras" default="1" />
     <arg name="use_stereo"  default="false" />
     <arg name="bag_start"   default="0" />
+    <!--
+    <arg name="bag"         default="/home/sgk/eth/implicit-mapping/datasets/strawberry/2021-10-14-11-20-52_1.bag" />
     <arg name="bag"         default="/home/sgk/eth/implicit-mapping/datasets/apple/2021-10-14-14-37-08_1.bag" />
+    -->
+    <arg name="bag"         default="/home/sgk/eth/implicit-mapping/datasets/strawberry/2021-10-14-11-20-15_0.bag" />
 
     <!-- imu starting thresholds -->
     <arg name="init_window_time"  default="1.0" />
-    <arg name="init_imu_thresh"   default="0.8" /> <!-- room1-5:0.60, room6:0.45 -->
+    <arg name="init_imu_thresh"   default="0.1" /> <!-- room1-5:0.60, room6:0.45 -->
 
     <!-- saving trajectory path and timing information -->
     <arg name="dosave"      default="false" />
@@ -21,7 +25,10 @@
 
         <!-- bag topics -->
         <param name="topic_imu"      type="string" value="/imu/data" />
+	<!--
         <param name="topic_camera0"  type="string" value="/d435_right/color/image_raw" />
+	-->
+        <param name="topic_camera0"  type="string" value="/d455_front/color/image_raw" />
 
         <!-- world/filter parameters -->
         <param name="use_fej"                type="bool"   value="true" />
@@ -86,19 +93,32 @@
         <!-- camera intrinsics -->
         <rosparam param="cam0_wh">[640, 480]</rosparam>
         <param name="cam0_is_fisheye" type="bool" value="false" />
-        <!--
 	<rosparam param="cam0_k">[381.5231018066406, 381.18243408203125, 315.5400390625, 237.8262481689453]</rosparam>
+        <rosparam param="cam0_d">[0, 0, 0, 0, 0]</rosparam>
+        <!--
         <rosparam param="cam0_d">[-0.057091124355793, 0.06687477231025696, -8.671214891364798e-05, -6.639014463871717e-05, -0.021493962034583092]</rosparam>
-	-->
 	<rosparam param="cam0_k">[606.5501708984375, 605.3943481445312, 323.1678466796875, 247.39173889160156]</rosparam>
         <rosparam param="cam0_d">[0, 0, 0, 0, 0]</rosparam>
+	-->
 
         <!-- camera extrinsics -->
+	<!-- d435_right
         <rosparam param="T_C0toI">
             [
                 0, -1, 0, 0.3,
                 1, 0, 0, 0.07,
                 0, 0, 1, 0.2,
+                0, 0, 0, 1
+            ]
+        </rosparam>
+	-->
+	<!-- d455_front
+	-->
+        <rosparam param="T_C0toI">
+            [
+                0, 0, 1, 0.3,
+                -1, 0, 0, 0,
+                0, -1, 0, 0.2,
                 0, 0, 0, 1
             ]
         </rosparam>
